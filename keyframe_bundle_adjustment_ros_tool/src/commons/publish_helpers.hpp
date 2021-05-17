@@ -364,13 +364,6 @@ namespace keyframe_bundle_adjustment_ros_tool
                           std::string tf_parent_frame_id)
         {
 
-            // MC : Added
-            //std::cout << "\n\n here here publish Paths 1 \n\n " << std::endl;
-            std::ofstream path_data;
-            std::string path_file = "path_data_file.txt";
-            std::string FinalPath_Pose = "/home/chghaf/test_limo_ws/";
-            path_data.open(FinalPath_Pose + path_file);
-
             nav_msgs::Path path_msg;
 
             // timestamp of msg is same as last keyframe
@@ -401,11 +394,16 @@ namespace keyframe_bundle_adjustment_ros_tool
                     active_path_msg.poses.push_back(cur_pose);
                 }
 
-                //MC : Added
-                path_data << cur_ts << " " << cur_pose.pose.position.x << " " << cur_pose.pose.position.y << " " << cur_pose.pose.position.z << "\n";
-
-                //MC : Added
-                //std::cout << "\n\n here here publish Paths 2 \n\n " << std::endl;
+                // MC : Added to save trajectory in TUM Format
+                // path_data << p_ts << " "
+                //           << cur_pose.pose.position.x << " "
+                //           << cur_pose.pose.position.y << " "
+                //           << cur_pose.pose.position.z << " "
+                //           << cur_pose.pose.orientation.x << " "
+                //           << cur_pose.pose.orientation.y << " "
+                //           << cur_pose.pose.orientation.z << " "
+                //           << cur_pose.pose.orientation.w << "\n";
+                //MC : Finish Added
             }
 
             // std::cout << "\n\n here here publish Paths 3 \n\n " << std::endl;
@@ -414,5 +412,6 @@ namespace keyframe_bundle_adjustment_ros_tool
             active_path_publisher.publish(active_path_msg);
             // std::cout << "\n\n here here publish Paths 4 \n\n " << std::endl;
         }
+
     } // namespace helpers
 } // namespace keyframe_bundle_adjustment_ros_tool

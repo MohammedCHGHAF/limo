@@ -57,8 +57,7 @@ namespace keyframe_bundle_adjustment_ros_tool
         reconfigure_server_.setCallback(boost::bind(&MonoLidar::reconfigureRequest, this, _1, _2));
 
         // setup synchronizer
-        sync_ = std::make_unique<Synchronizer>(
-            SyncPolicy(100), *(interface_.tracklets_subscriber), *(interface_.camera_info_subscriber));
+        sync_ = std::make_unique<Synchronizer>(SyncPolicy(100), *(interface_.tracklets_subscriber), *(interface_.camera_info_subscriber));
         sync_->registerCallback(boost::bind(&MonoLidar::callbackSubscriber, this, _1, _2));
 
         // get extrinsics from tf, this is the pose from vehicle to camera frame!
@@ -81,6 +80,16 @@ namespace keyframe_bundle_adjustment_ros_tool
         last_pose_origin_camera = Eigen::Isometry3d::Identity();
         accumulated_motion = Eigen::Isometry3d::Identity();
 
+        // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // MC : Start Add. Create directories for trajectory output
+        // MC : Added
+        // MC : Added to save trajectory in TUM Format
+        this->createTrajectoryDirectories(this->FinalOutputDir);
+        this->path_file = this->FinalOutputDir + (std::string) "/poses.txt";
+        // this->path_data.open(this->path_file);
+        // MC : Finish MC Added
+        // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         rosinterface_handler::showNodeInfo();
     }
 
@@ -88,6 +97,14 @@ namespace keyframe_bundle_adjustment_ros_tool
     {
         // On shutdown write doen hole pointcloud and all poses.
         helpers::dumpMap("/tmp/mono_lidar_map_dump.yaml", bundle_adjuster_);
+
+        // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // MC : Start Add.
+        // MC : Added
+        helpers::saveTrajectory(this->path_file, interface_.tf_parent_frame_id, bundle_adjuster_);
+        // interface_.path_data.close();
+        // MC : Finish MC Added
+        // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     void MonoLidar::callbackSubscriber(const TrackletsMsg::ConstPtr &tracklets_msg,
