@@ -1,9 +1,28 @@
 <launch>
+<!-- 
+All topics : 
+topics:      /groundtruth_pose/pose                         271 msgs    : geometry_msgs/PoseStamped
+             /sensor/camera/color/left/camera_info          271 msgs    : sensor_msgs/CameraInfo   
+             /sensor/camera/color/left/image_rect           271 msgs    : sensor_msgs/Image        
+             /sensor/camera/color/right/camera_info         271 msgs    : sensor_msgs/CameraInfo   
+             /sensor/camera/color/right/image_rect          271 msgs    : sensor_msgs/Image        
+             /sensor/camera/color_labels/left/camera_info   271 msgs    : sensor_msgs/CameraInfo   
+             /sensor/camera/color_labels/left/image_rect    271 msgs    : sensor_msgs/Image        
+             /sensor/camera/grayscale/left/camera_info      271 msgs    : sensor_msgs/CameraInfo   
+             /sensor/camera/grayscale/left/image_rect       271 msgs    : sensor_msgs/Image        
+             /sensor/camera/grayscale/right/camera_info     271 msgs    : sensor_msgs/CameraInfo   
+             /sensor/camera/grayscale/right/image_rect      271 msgs    : sensor_msgs/Image        
+             /sensor/velodyne/cloud_euclidean               271 msgs    : sensor_msgs/PointCloud2  
+             /tf                                            271 msgs    : tf2_msgs/TFMessage       
+             /tf_static                                       1 msg     : tf2_msgs/TFMessage
+
+
+-->
   <arg name="record_perception" default="true" />
   <node pkg="rosbag" 
         type="record" 
         args="
-              record -o /home/chghaf/MC/Datasets/Dump/all
+              record -o /media/chghaf/CHGHAF/KITTI/LIMO/dump/
               /tf
               /tf_static
               /cam00/camera_info
