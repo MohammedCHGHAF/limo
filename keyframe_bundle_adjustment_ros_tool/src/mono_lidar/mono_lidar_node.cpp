@@ -1,6 +1,7 @@
 #include "mono_lidar.hpp"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
 
     ros::init(argc, argv, "mono_lidar_node");
 

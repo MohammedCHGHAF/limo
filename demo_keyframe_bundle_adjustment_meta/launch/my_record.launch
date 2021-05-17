@@ -1,0 +1,25 @@
+<launch>
+  <arg name="record_perception" default="true" />
+  <node pkg="rosbag" 
+        type="record" 
+        args="
+              record -o /home/chghaf/MC/Datasets/Dump/all
+              /tf
+              /tf_static
+              /cam00/camera_info
+              /cam00/image_raw
+              /cam01/camera_info
+              /cam01/image_raw
+              /cam02/camera_info
+              /cam02/image_raw
+              /cam03/camera_info
+              /cam03/image_raw
+              /pose_imu
+              /transform_imu
+              /velodyne_points
+              "
+name="record" output="screen" if="$(arg record_perception)" />
+
+</launch>
+
+

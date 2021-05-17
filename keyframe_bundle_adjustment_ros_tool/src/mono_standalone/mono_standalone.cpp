@@ -214,7 +214,8 @@ void MonoStandalone::callbackSubscriber(const TrackletsMsg::ConstPtr& tracklets_
                 cv::waitKey(30);
             }
 
-            if (interface_.path_publisher_topic != "" && interface_.active_path_publisher_topic != "") {
+            if (interface_.path_publisher_topic != "" && interface_.active_path_publisher_topic != "") 
+            {
                 helpers::publishPaths(interface_.path_publisher,
                                       interface_.active_path_publisher,
                                       bundle_adjuster_,

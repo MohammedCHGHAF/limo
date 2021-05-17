@@ -21,6 +21,12 @@ find_package(AutoDeps REQUIRED COMPONENTS ${DEPENDEND_PACKAGES})
 # Mark files or folders for display in IDEs
 mrt_add_to_ide(README.md .gitlab-ci.yml)
 
+##### MC : Added 
+##### Add Eigen dependency
+find_package(Eigen3 3.1.0 REQUIRED)
+
+
+
 ########################
 ## add python modules ##
 ########################
@@ -69,6 +75,7 @@ include_directories(
     include/${PROJECT_NAME}
     ${mrt_INCLUDE_DIRS}
     ${catkin_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIR}
     )
 
 link_directories(

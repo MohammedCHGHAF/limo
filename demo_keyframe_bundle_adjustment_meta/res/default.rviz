@@ -95,9 +95,9 @@ Visualization Manager:
       Value: true
     - Class: rviz/Axes
       Enabled: true
-      Length: 10
+      Length: 20
       Name: Axes
-      Radius: 0.30000001192092896
+      Radius: 2
       Reference Frame: <Fixed Frame>
       Value: true
     - Alpha: 1
@@ -250,7 +250,7 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.009999999776482582
+      Size (m): 0.1
       Style: Flat Squares
       Topic: /sensor/velodyne/cloud_euclidean
       Unreliable: false
@@ -391,9 +391,9 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -119.87532806396484
-        Y: 24.250825881958008
-        Z: -7.698648452758789
+        X: -2.69532806396484
+        Y: -5.940825881958008
+        Z: -2.208648452758789
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false

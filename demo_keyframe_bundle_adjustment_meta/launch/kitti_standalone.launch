@@ -7,23 +7,30 @@
   <node pkg="nodelet" type="nodelet" name="$(arg nodelet_manager_name)" output="screen" args="manager"/>
    -->
   <!--feature matching-->
-  <include file="$(find demo_keyframe_bundle_adjustment_meta)/launch/feature_matching.launch">
+  <!-- <include file="$(find demo_keyframe_bundle_adjustment_meta)/launch/feature_matching.launch"> --> 
+  <include file="/home/chghaf/test_limo_ws/src/limo/demo_keyframe_bundle_adjustment_meta/launch/feature_matching.launch">
       <arg name="camera_name" value="left"/>
   </include>
 
   <!-- depth estimator tracklets node -->
   
-  <arg name="config_depth_estimator" default="$(find demo_keyframe_bundle_adjustment_meta)/res/mono_lidar_fusion_parameters.yaml"/>
-  <arg name="config_tracklets_depth" default="$(find demo_keyframe_bundle_adjustment_meta)/res/config_tracklets_depth_ros_tool.yaml"/>
+  <!-- <arg name="config_depth_estimator" default="$(find demo_keyframe_bundle_adjustment_meta)/res/mono_lidar_fusion_parameters.yaml"/> -->
+  <!-- <arg name="config_tracklets_depth" default="$(find demo_keyframe_bundle_adjustment_meta)/res/config_tracklets_depth_ros_tool.yaml"/> -->
+  <arg name="config_depth_estimator" default="/home/chghaf/test_limo_ws/src/limo/demo_keyframe_bundle_adjustment_meta/res/mono_lidar_fusion_parameters.yaml"/>
+  <arg name="config_tracklets_depth" default="/home/chghaf/test_limo_ws/src/limo/demo_keyframe_bundle_adjustment_meta/res/config_tracklets_depth_ros_tool.yaml"/>
+
+
   <!-- <node pkg="nodelet" type="nodelet" name="tracklets_depth_nodelet" args="load tracklets_depth_ros_tool/TrackletDepthNodelet $(arg nodelet_manager_name)" output="screen" required="true"> -->
   <node pkg="tracklets_depth_ros_tool" type="tracklet_depth_node" name="tracklets_depth_node" output="screen" required="true">
     <param name="config_tracklet_depth" value="$(arg config_tracklets_depth)" />
     <param name="config_depth_estimator" value="$(arg config_depth_estimator)" />
-    <param name="verbosity" value="info" />
+    <!--<param name="verbosity" value="info" /> -->
+    <param name="verbosity" value="debug" />
   </node>
 
   <!--define aliases and static transforms-->
-  <include file="$(find demo_keyframe_bundle_adjustment_meta)/launch/tf2_static_aliases_kitti.launch">
+  <!-- <include file="$(find demo_keyframe_bundle_adjustment_meta)/launch/tf2_static_aliases_kitti.launch"> --> 
+  <include file="/home/chghaf/test_limo_ws/src/limo/demo_keyframe_bundle_adjustment_meta/launch/tf2_static_aliases_kitti.launch">
     <arg name="tf_namespace_alias" value="estimate"/>
   </include>
 
@@ -42,21 +49,31 @@
   <!-- <node pkg="nodelet" type="nodelet" name="add_outlier_flag_nodelet"
           args="load matches_conversion_ros_tool/AddOutlierFlagNodelet $(arg nodelet_manager_name)" output="screen" required="true"> -->
   <node pkg="matches_conversion_ros_tool" type="add_outlier_flag" name="add_outlier_flag_node" output="screen" required="true">
-    <rosparam command="load" file="$(find matches_conversion_ros_tool)/launch/params/add_outlier_flag_parameters.yaml"/>
-    <param name="verbosity" value="info"/>
+    <!-- <rosparam command="load" file="$(find matches_conversion_ros_tool)/launch/params/add_outlier_flag_parameters.yaml"/> -->
+    <rosparam command="load" file="/home/chghaf/test_limo_ws/src/mono_lidar_depth/matches_conversion_ros_tool/launch/params/add_outlier_flag_parameters.yaml"/>
+    <!-- <param name="verbosity" value="info"/> --> 
+    <param name="verbosity" value="debug"/>
     <param name="subscriber_depth_topic" value="/tracklets_depth/tracklets/left"/>
     <param name="has_depth" value="true"/>
     <param name="publisher_topic" value="/tracklets_depth/tracklets/left/with_outlier_dummy"/>
   </node>
 
+  <!-- MC : Modified : Commetned -->
   <!-- Add labels from semantic labeling to matches. -->
-  <include file="$(find demo_keyframe_bundle_adjustment_meta)/launch/semantic_labels.launch"/>
+  <!-- <include file="$(find demo_keyframe_bundle_adjustment_meta)/launch/semantic_labels.launch"/> -->
+  <include file="/home/chghaf/test_limo_ws/src/limo/demo_keyframe_bundle_adjustment_meta/launch/semantic_labels.launch"/> 
 
   <!-- launch keyframe bundle adjustment -->
-  <include file="$(find demo_keyframe_bundle_adjustment_meta)/launch/keyframe_ba_monolid.launch">
+  <!-- <include file="$(find demo_keyframe_bundle_adjustment_meta)/launch/keyframe_ba_monolid.launch"> -->
+  <include file="/home/chghaf/test_limo_ws/src/limo/demo_keyframe_bundle_adjustment_meta/launch/keyframe_ba_monolid.launch">
     <arg name="prior_vehicle_frame" value="estimate_prior/vehicle"  if="false"/>
   </include>
   
   <!-- play rosbag with clock -->
   <!-- /mrtstorage/datasets/kitti/odometry/odometry_rosbags/gray/00.bag"-->
+
+  <!--- MC ADDED -->
+  <!--- Run Rviz-->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d /home/chghaf/test_limo_ws/src/limo/demo_keyframe_bundle_adjustment_meta/res/default.rviz" /> 
+
 </launch>
