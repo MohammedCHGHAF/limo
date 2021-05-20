@@ -1,0 +1,11 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ROS: Launch",
+            "type": "ros",
+            "request": "launch",
+            "target": "/home/chghaf/test_limo_ws/src/limo/demo_keyframe_bundle_adjustment_meta/launch/kitti_standalone.launch", // <<< Configure path to your launch file
+        }
+    ]
+}

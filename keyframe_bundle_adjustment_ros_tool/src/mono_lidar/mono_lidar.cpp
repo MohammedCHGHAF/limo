@@ -82,7 +82,6 @@ namespace keyframe_bundle_adjustment_ros_tool
 
         // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // MC : Start Add. Create directories for trajectory output
-        // MC : Added
         // MC : Added to save trajectory in TUM Format
         this->createTrajectoryDirectories(this->FinalOutputDir);
         this->path_file = this->FinalOutputDir + (std::string) "/poses.txt";
@@ -100,7 +99,7 @@ namespace keyframe_bundle_adjustment_ros_tool
 
         // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // MC : Start Add.
-        // MC : Added
+        // MC : Added to save trajectory
         helpers::saveTrajectory(this->path_file, interface_.tf_parent_frame_id, bundle_adjuster_);
         // interface_.path_data.close();
         // MC : Finish MC Added
@@ -356,11 +355,12 @@ namespace keyframe_bundle_adjustment_ros_tool
                                                            keyframe_bundle_adjustment::Keyframe::FixationStatus::Pose,
                                                            ground_plane);
             bundle_adjuster_->push(cur_frame);
-            ROS_DEBUG_STREAM("In MonoLidar: added first keyframe");
+            ROS_DEBUG_STREAM("In MonoLidar: added first keyframe...");
 
             // hack:: dump pose if filepath is non empty
             if (interface_.dump_path != "")
             {
+
                 std::ofstream file;
                 file.open(interface_.dump_path.c_str());
                 file.precision(12);
@@ -370,6 +370,7 @@ namespace keyframe_bundle_adjustment_ros_tool
         }
 
         auto start_time_publish_stuff = std::chrono::steady_clock::now();
+
         // convert poses to pose constraint array and publish
         // auto out_msg =
         //     helpers::convertToOutmsg(tracklets_msg->header.stamp, bundle_adjuster_, interface_.calib_source_frame_id);
@@ -379,6 +380,7 @@ namespace keyframe_bundle_adjustment_ros_tool
 
         if (interface_.path_publisher_topic != "" && interface_.active_path_publisher_topic != "")
         {
+
             helpers::publishPaths(interface_.path_publisher,
                                   interface_.active_path_publisher,
                                   bundle_adjuster_,
@@ -387,20 +389,25 @@ namespace keyframe_bundle_adjustment_ros_tool
 
         if (interface_.landmarks_publisher_topic != "")
         {
+            // MC : Added comment
+            // Calling this function causes the bug
             helpers::publishLandmarks(interface_.landmarks_publisher, bundle_adjuster_, interface_.tf_parent_frame_id);
         }
 
         if (interface_.planes_publisher_topic != "")
         {
+
             helpers::publishPlanes(interface_.planes_publisher, bundle_adjuster_, interface_.tf_parent_frame_id);
         }
 
         // MC : 210517
         //MC : Commented 210112
+        // MC : 210519
         ss << "Duration publish="
            << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time_publish_stuff).count()
            << " ms" << std::endl;
 
+        // MC : Commented 210520
         ros::Time timestamp_last_kf;
         timestamp_last_kf.fromNSec(bundle_adjuster_->getKeyframe().timestamp_);
         auto start_time_send_tf = std::chrono::steady_clock::now();
@@ -408,6 +415,7 @@ namespace keyframe_bundle_adjustment_ros_tool
 
         // MC : 210517
         //MC : Commented 210112
+        // MC : 210519
         ss << "Duration send pose tf="
            << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time_send_tf).count()
            << " ms" << std::endl;
@@ -419,6 +427,7 @@ namespace keyframe_bundle_adjustment_ros_tool
 
         // MC : 210517
         //MC : Commented 210112
+        // MC : 210519
         auto duration =
             std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::steady_clock::now() - start_time);
         ss << "time callback=" << duration.count() << " sec\n";

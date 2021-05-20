@@ -15,6 +15,8 @@
 
   <!-- feature tracking node -->
   <node pkg="nodelet" type="nodelet" name="viso_feature_tracking_nodelet_$(arg camera_name)" args="load viso_feature_tracking_ros_tool/VisoFeatureTrackingNodelet $(arg nodelet_manager_name)" output="screen">
+    <!-- MC : Modified ; was : <param name="verbosity" value="info" /> -->
+    <!-- MC : you can change it to : <param name="verbosity" value="debug" /> -->
     <param name="verbosity" value="info" />
     <param name="config" value="$(find demo_keyframe_bundle_adjustment_meta)/res/config_feature_matching.yaml" />
     <remap from="tgt/matches" to="/matches/grayscale/$(arg camera_name)"/>

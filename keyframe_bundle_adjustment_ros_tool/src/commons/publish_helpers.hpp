@@ -121,8 +121,23 @@ namespace keyframe_bundle_adjustment_ros_tool
 
             ros::Time stamp;
             // MC : 210517
+            // MC : Here is the cause of the bug !!! 210520
+            // MC ; msg of bug is :
+            // terminate called after throwing an instance of 'std::runtime_error'
+            // what():  Time is out of dual 32-bit range
             // MC : Modified, was : stamp.fromNSec(bundle_adjuster->getKeyframe().timestamp_);
-            stamp.fromNSec(bundle_adjuster->getKeyframe().timestamp_);
+            // stamp.fromNSec(bundle_adjuster->getKeyframe().timestamp_);
+            std::cout << "####################################################################################################################################" << std::endl;
+            std::cout << "\nMC :  here is timestamp : bundle_adjuster->getKeyframe().timestamp_ " << bundle_adjuster->getKeyframe().timestamp_ << std::endl;
+            std::cout << "####################################################################################################################################" << std::endl;
+            // MC : Added
+            TimestampNSec corrected_timestamp_mc = static_cast<uint64_t>(bundle_adjuster->getKeyframe().timestamp_) - static_cast<uint64_t>(1317376239000000000);
+            std::cout << "####################################################################################################################################" << std::endl;
+            std::cout << "\nMC :  here is corrected timestamp :  " << corrected_timestamp_mc << std::endl;
+            std::cout << "####################################################################################################################################" << std::endl;
+
+            stamp.fromNSec(corrected_timestamp_mc);
+            // stamp.fromNSec(bundle_adjuster->getKeyframe().timestamp_);
             // stamp.fromNSec(0);
 
             PointCloud::Ptr msg(new PointCloud);
@@ -211,7 +226,7 @@ namespace keyframe_bundle_adjustment_ros_tool
             landmarks_publisher.publish(msg);
 
             //MC : Added
-            //std::cout << "\n\n here here publishLandmarks END \n\n " << std::endl;
+            // std::cout << "\n\n here here publishLandmarks END \n\n " << std::endl;
         }
         /**
  * @brief convertToOutmsg, convert from keyframe poses to output

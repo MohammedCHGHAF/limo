@@ -22,20 +22,9 @@ topics:      /groundtruth_pose/pose                         271 msgs    : geomet
   <node pkg="rosbag" 
         type="record" 
         args="
-              record -o /media/chghaf/CHGHAF/KITTI/LIMO/dump/
-              /tf
-              /tf_static
-              /cam00/camera_info
-              /cam00/image_raw
-              /cam01/camera_info
-              /cam01/image_raw
-              /cam02/camera_info
-              /cam02/image_raw
-              /cam03/camera_info
-              /cam03/image_raw
-              /pose_imu
-              /transform_imu
-              /velodyne_points
+              record -o /media/chghaf/CHGHAF/KITTI/LIMO/dump/record_tf_
+                       
+            /tf                                         
               "
 name="record" output="screen" if="$(arg record_perception)" />
 

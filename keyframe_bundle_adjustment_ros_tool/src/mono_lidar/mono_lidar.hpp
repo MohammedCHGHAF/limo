@@ -99,7 +99,7 @@ namespace keyframe_bundle_adjustment_ros_tool
             auto in_time_t = std::chrono::system_clock::to_time_t(now);
             char dateTimeBuf[100];
             std::string dateTime_mc;
-            std::string TmpOutputDir_mc = "/home/chghaf/MC/Z_RESULTS/LIMO";
+            std::string TmpOutputDir_mc = "/home/chghaf/MC/Z_RESULTS/LIMO/TESTS";
 
             // look if we can operate with given emplacement
             std::strftime(dateTimeBuf, sizeof(dateTimeBuf), "%y%m%d_%H%M%S", std::localtime(&in_time_t));

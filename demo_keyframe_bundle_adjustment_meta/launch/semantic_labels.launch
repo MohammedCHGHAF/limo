@@ -13,6 +13,8 @@
     <rosparam command="load" file="$(find image_preproc_ros_tool)/launch/params/label_dilation_parameters.yaml"/>
     <param name="subscriber_topic" value="/sensor/camera/color_labels/left/image_rect"/>
     <param name="publisher_topic" value="/semantic_labels/eroded_image"/>
+    <!-- MC : Modified ; was : <param name="verbosity" value="info"/> -->
+    <!-- MC you can change it to  : <param name="verbosity" value="debug"/> -->
     <param name="verbosity" value="info"/>
     <param name="half_kernel_size" value="8"/>
   </node>
@@ -25,7 +27,9 @@
     <param name="subscriber_labels_topic" value="/semantic_labels/eroded_image"/>
     <param name="subscriber_matches_topic" value="$(arg subscriber_topic_matches)"/>
     <param name="matches_publisher_topic" value="$(arg publisher_topic)"/>
-    <param name="verbosity" value="debug"/>
+    <!-- MC : changed was :<param name="verbosity" value="debug"/> -->
+    <!-- MC , you can change it to  <param name="verbosity" value="info"/> -->
+    <param name="verbosity" value="info"/>
     <param name="roi_height" value="3"/>
     <param name="roi_width" value="3"/>
   </node>
